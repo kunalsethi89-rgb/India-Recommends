@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Brahma">
+<meta name="theme-color" content="#0A0A08">
+<title>Brahma — India Recommends</title>
+
+<style>
+/* ── Reset & Base ─────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{background:#0A0A08;height:100%;}
+body{background:#0A0A08;color:#F2EAD6;font-family:Georgia,'Palatino Linotype',Palatino,serif;min-height:100vh;min-height:-webkit-fill-available;overflow-x:hidden;}
+
+/* ── Screens ──────────────────────────────────── */
+.screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;min-height:-webkit-fill-available;padding:36px 24px;width:100%;}
+.screen.active{display:flex;}
+.screen.top{justify-content:flex-start;padding-top:48px;padding-bottom:48px;}
+
+/* ── Animations ───────────────────────────────── */
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes breathe{0%,100%{opacity:.25;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes blink{0%,80%,100%{opacity:.12}40%{opacity:1}}
+@keyframes pop{0%{opacity:0;transform:scale(.3)}60%{transform:scale(1.15)}100%{opacity:1;transform:scale(1)}}
+.animate{animation:up .45s ease both;}
+
+/* ── Typography ───────────────────────────────── */
+.lbl{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#3A3525;margin-bottom:10px;}
+.h-huge{font-size:58px;font-weight:300;letter-spacing:-2px;color:#F2EAD6;line-height:1;}
+.h-large{font-size:24px;font-weight:400;color:#F2EAD6;line-height:1.25;}
+.h-med{font-size:20px;font-weight:400;color:#F2EAD6;line-height:1.2;}
+.italic{font-size:15px;color:#8A8070;font-style:italic;}
+.body-text{font-size:13px;color:#8A8070;line-height:1.75;}
+.dim-text{font-size:13px;color:#4A4535;line-height:1.7;}
+.small{font-size:11px;color:#3A3525;line-height:1.7;}
+.gold-text{font-size:13px;color:#D4B565;font-style:italic;line-height:1.7;}
+
+/* ── Dividers ─────────────────────────────────── */
+.rule{width:34px;height:1px;background:#7A6428;margin:14px 0;}
+.divider{width:100%;height:.5px;background:#242018;margin:18px 0 20px;}
+
+/* ── Welcome ──────────────────────────────────── */
+#welcome{text-align:center;}
+.pills{display:flex;gap:26px;justify-content:center;margin-top:30px;}
+.pill{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#2A2820;}
+
+/* ── Buttons ──────────────────────────────────── */
+.btn-gold{display:block;width:auto;padding:16px 52px;background:#C8A84B;border:none;border-radius:11px;color:#0A0A08;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.08em;font-family:Georgia,serif;transition:background .2s;touch-action:manipulation;-webkit-appearance:none;}
+.btn-gold:active{background:#B89638;}
+.btn-outline{display:block;padding:11px 30px;background:transparent;border:.5px solid #282418;border-radius:9px;color:#5A5040;font-size:13px;cursor:pointer;font-family:Georgia,serif;transition:color .15s;touch-action:manipulation;-webkit-appearance:none;text-align:center;}
+.btn-outline:active{color:#8A8070;}
+.btn-back{background:none;border:none;color:#3A3525;font-size:13px;cursor:pointer;font-family:Georgia,serif;padding:0;letter-spacing:.04em;touch-action:manipulation;-webkit-appearance:none;align-self:flex-start;margin-bottom:22px;}
+.btn-back:active{color:#6A6050;}
+
+/* ── Progress ─────────────────────────────────── */
+.progress{display:flex;gap:5px;width:100%;margin-bottom:34px;}
+.p-dot{flex:1;height:2px;border-radius:2px;transition:all .4s;}
+
+/* ── Options ──────────────────────────────────── */
+.opt{display:flex;align-items:center;justify-content:space-between;width:100%;padding:15px 17px;margin-bottom:9px;background:transparent;border:1px solid #242018;border-radius:11px;color:#7A7060;font-size:14px;text-align:left;cursor:pointer;transition:all .15s;font-family:Georgia,serif;touch-action:manipulation;-webkit-appearance:none;-webkit-text-fill-color:#7A7060;}
+.opt.selected{background:#1C1916;border-color:#C8A84B;color:#F2EAD6;-webkit-text-fill-color:#F2EAD6;}
+.opt .tick{color:#C8A84B;font-size:16px;opacity:0;transition:opacity .15s;flex-shrink:0;margin-left:10px;}
+.opt.selected .tick{opacity:1;}
+.btn-next{width:100%;padding:15px;margin-top:10px;background:#1E1C14;border:none;border-radius:11px;color:#3A3525;font-size:14px;font-weight:700;cursor:default;letter-spacing:.08em;transition:all .2s;font-family:Georgia,serif;touch-action:manipulation;-webkit-appearance:none;}
+.btn-next.ready{background:#C8A84B;color:#0A0A08;cursor:pointer;}
+.btn-next.ready:active{background:#B89638;}
+.step-count{margin-top:18px;font-size:11px;color:#2A2820;text-align:center;}
+
+/* ── Cards ────────────────────────────────────── */
+.card{background:#131310;border:.5px solid #242018;border-radius:14px;padding:20px 20px;margin-bottom:11px;width:100%;}
+.card-rank{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7A6428;margin-bottom:10px;}
+.card-name{font-size:19px;font-weight:400;color:#F2EAD6;margin-bottom:4px;line-height:1.25;}
+.card-meta{font-size:12px;color:#3A3525;margin-bottom:13px;}
+.card-desc{font-size:13px;color:#8A8070;line-height:1.8;margin-bottom:10px;}
+.card-why{font-size:13px;color:#D4B565;line-height:1.7;font-style:italic;padding-left:12px;border-left:2px solid #7A6428;}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.tag{font-size:11px;padding:3px 11px;border:.5px solid #242018;border-radius:20px;color:#3A3525;}
+.btn-book{display:block;width:100%;margin-top:14px;padding:14px;background:#C8A84B;border:none;border-radius:9px;color:#0A0A08;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.06em;font-family:Georgia,serif;transition:background .15s;touch-action:manipulation;-webkit-appearance:none;text-align:center;}
+.btn-book:active{background:#B89638;}
+
+/* ── Booking form ─────────────────────────────── */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;width:100%;}
+.field-full{width:100%;margin-bottom:12px;}
+.field-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#4A4535;margin-bottom:5px;}
+.f-input{width:100%;padding:12px 14px;background:#131310;border:.5px solid #242018;border-radius:9px;color:#F2EAD6;font-size:14px;font-family:Georgia,serif;outline:none;-webkit-appearance:none;appearance:none;color-scheme:dark;}
+.f-input::placeholder{color:#3A3525;}
+select.f-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234A4535'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.counter{display:flex;align-items:center;background:#131310;border:.5px solid #242018;border-radius:9px;overflow:hidden;height:46px;}
+.counter button{background:none;border:none;color:#C8A84B;font-size:24px;cursor:pointer;padding:0 16px;line-height:1;font-family:Georgia,serif;height:100%;touch-action:manipulation;-webkit-appearance:none;}
+.counter button:active{background:#1E1C14;}
+.counter span{flex:1;text-align:center;color:#F2EAD6;font-size:15px;font-weight:500;}
+
+/* ── Price box ────────────────────────────────── */
+.price-box{background:#131310;border-radius:11px;padding:16px 17px;margin-bottom:16px;width:100%;}
+.price-row{display:flex;justify-content:space-between;font-size:13px;color:#8A8070;margin-bottom:7px;}
+.price-sub{display:flex;justify-content:space-between;font-size:12px;color:#3A3525;margin-bottom:10px;padding-bottom:10px;border-bottom:.5px solid #1E1C14;}
+.price-total{display:flex;justify-content:space-between;font-size:15px;font-weight:500;color:#F2EAD6;}
+.price-note{font-size:11px;color:#3A3525;margin-top:8px;line-height:1.6;}
+
+/* ── Confirmed ────────────────────────────────── */
+.check-circle{width:70px;height:70px;border-radius:50%;background:#0D1F14;border:1px solid #2A6B3A;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:30px;color:#4CAF72;animation:pop .5s .1s ease both;}
+.conf-card{background:#131310;border-radius:12px;padding:18px 20px;margin:20px 0;width:100%;text-align:left;}
+.conf-row{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:.5px solid #1E1C14;font-size:13px;}
+.conf-row:last-child{border-bottom:none;}
+.conf-key{color:#3A3525;flex-shrink:0;margin-right:12px;}
+.conf-val{color:#F2EAD6;text-align:right;}
+
+/* ── Loading dots ─────────────────────────────── */
+.think-dots{display:flex;gap:8px;justify-content:center;margin-top:24px;}
+.think-dot{width:7px;height:7px;border-radius:50%;background:#7A6428;}
+
+/* ── Scrollable content ───────────────────────── */
+.scroll-inner{width:100%;max-width:480px;}
+
+/* ── iOS safe area ────────────────────────────── */
+@supports(padding:max(0px)){
+  .screen{padding-bottom:max(36px,env(safe-area-inset-bottom));}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════════ -->
+<div id="welcome" class="screen active">
+  <div class="animate" style="text-align:center;">
+    <div class="lbl">India Recommends</div>
+    <div class="h-huge" style="margin-bottom:10px;">Brahma</div>
+    <div class="italic" style="margin-bottom:12px;">Your pocket concierge for Udaipur</div>
+    <div class="rule" style="margin:12px auto;"></div>
+    <div class="dim-text" style="max-width:280px;margin:0 auto 40px;text-align:center;">
+      Five questions. Three places, editorially matched to your exact context.
+      No algorithms. No paid placements.
+    </div>
+    <button class="btn-gold" onclick="startQuiz()" style="margin:0 auto;">Find my perfect place</button>
+    <div class="pills">
+      <span class="pill">Editorial</span>
+      <span class="pill">Verified</span>
+      <span class="pill">Independent</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 2 — QUESTION
+════════════════════════════════════ -->
+<div id="question" class="screen">
+  <div class="scroll-inner">
+    <div class="progress" id="prog"></div>
+    <div class="h-large" id="q-text" style="margin-bottom:8px;"></div>
+    <div class="dim-text" id="q-hint" style="margin-bottom:26px;"></div>
+    <div id="q-opts"></div>
+    <button class="btn-next" id="q-next" onclick="advance()">Continue →</button>
+    <div class="step-count" id="q-count"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 3 — THINKING
+════════════════════════════════════ -->
+<div id="thinking" class="screen">
+  <div style="text-align:center;">
+    <div style="width:58px;height:58px;border-radius:50%;border:1px solid #C8A84B;margin:0 auto 28px;animation:breathe 2.2s ease-in-out infinite;"></div>
+    <div class="h-med" style="font-weight:300;margin-bottom:10px;">Brahma is thinking</div>
+    <div class="dim-text" style="max-width:220px;margin:0 auto;">Matching your context with the editorial database</div>
+    <div class="think-dots">
+      <div class="think-dot" style="animation:blink 1.5s 0s ease-in-out infinite;"></div>
+      <div class="think-dot" style="animation:blink 1.5s .25s ease-in-out infinite;"></div>
+      <div class="think-dot" style="animation:blink 1.5s .5s ease-in-out infinite;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 4 — RESULTS
+════════════════════════════════════ -->
+<div id="results" class="screen top">
+  <div class="scroll-inner animate">
+    <div class="lbl" style="margin-bottom:5px;">India Recommends · Brahma</div>
+    <div class="body-text" id="res-context" style="margin-bottom:6px;"></div>
+    <div class="divider"></div>
+    <div id="res-cards"></div>
+    <div class="small" style="text-align:center;margin-top:14px;">Brahma Preview · Powered by editorial intelligence</div>
+    <button class="btn-outline" onclick="reset()" style="margin:16px auto 0;display:block;">Start over</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 5 — BOOKING
+════════════════════════════════════ -->
+<div id="booking" class="screen top">
+  <div class="scroll-inner animate">
+    <button class="btn-back" onclick="goTo('results')">← Back to results</button>
+    <div class="lbl" style="margin-bottom:7px;">Brahma · Book this</div>
+    <div class="h-med" id="bk-name" style="margin-bottom:4px;"></div>
+    <div class="dim-text" id="bk-meta" style="margin-bottom:22px;font-size:12px;"></div>
+
+    <div class="field-row">
+      <div>
+        <div class="field-label">Date</div>
+        <input type="date" id="bk-date" class="f-input">
+      </div>
+      <div>
+        <div class="field-label">Time</div>
+        <select id="bk-time" class="f-input">
+          <option>7:00 PM</option><option>7:30 PM</option>
+          <option selected>8:00 PM</option><option>8:30 PM</option>
+          <option>9:00 PM</option><option>9:30 PM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <div class="field-label">Guests</div>
+        <div class="counter">
+          <button onclick="adjGuests(-1)" type="button">−</button>
+          <span id="bk-gc">2</span>
+          <button onclick="adjGuests(1)" type="button">+</button>
+        </div>
+      </div>
+      <div>
+        <div class="field-label">WhatsApp</div>
+        <input type="tel" id="bk-phone" class="f-input" placeholder="+91 98765 43210">
+      </div>
+    </div>
+
+    <div class="field-full">
+      <div class="field-label">Your name</div>
+      <input type="text" id="bk-pname" class="f-input" placeholder="Full name">
+    </div>
+
+    <div class="field-full">
+      <div class="field-label">Special requests <span style="font-style:italic;text-transform:none;letter-spacing:0;color:#3A3525;">(optional)</span></div>
+      <input type="text" id="bk-req" class="f-input" placeholder="Anniversary, dietary needs, window table...">
+    </div>
+
+    <div class="price-box">
+      <div class="price-row"><span>Brahma editorial curation fee</span><span>₹299</span></div>
+      <div class="price-sub" id="bk-meal"></div>
+      <div class="price-total"><span>Pay now</span><span>₹299</span></div>
+      <div class="price-note">Confirmed within 1 hour · Full refund if unavailable</div>
+    </div>
+
+    <button class="btn-gold" id="bk-pay" onclick="confirmPay()" type="button" style="width:100%;">Confirm booking — ₹299</button>
+    <div class="small" style="text-align:center;margin-top:10px;">Demo mode — no real payment processed</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SCREEN 6 — CONFIRMED
+════════════════════════════════════ -->
+<div id="confirmed" class="screen">
+  <div class="scroll-inner animate" style="text-align:center;">
+    <div class="check-circle">✓</div>
+    <div class="h-med" style="margin-bottom:6px;">Booking confirmed</div>
+    <div class="body-text" id="conf-place" style="margin-bottom:3px;"></div>
+    <div class="dim-text" id="conf-area" style="font-size:12px;margin-bottom:0;"></div>
+
+    <div class="conf-card" id="conf-details"></div>
+
+    <div class="body-text" id="conf-msg" style="max-width:300px;margin:0 auto 26px;"></div>
+    <button class="btn-outline" onclick="goTo('results')" style="margin:0 auto;display:block;">Return to your picks</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════ -->
+<script>
+/* ── CONFIG — replace key with yours from console.anthropic.com ── */
+var API_KEY = "YOUR_API_KEY_HERE";
+var BOOKING_FEE = 299;
+
+/* ── Questions ───────────────────────────────────────────────────── */
+var QS = [
+  {id:"mood", q:"What mood are you in?", hint:"Brahma finds somewhere that matches the feeling, not just the food.", opts:["Romantic","Peaceful & quiet","Lively & social","Deeply authentic","Open to anything"]},
+  {id:"budget", q:"Budget per person?", hint:"Every recommendation earns the price it asks.", opts:["Under ₹500","₹500 – 1,500","₹1,500 – 4,000","₹4,000 and above"]},
+  {id:"group", q:"Who are you with?", hint:"The best table depends on who is sitting at it.", opts:["Travelling solo","My partner","Family with children","Group of friends"]},
+  {id:"time", q:"What time are you going?", hint:"Some places only come alive at certain hours.", opts:["Breakfast or brunch","Lunch","Dinner tonight","Sunset & evening drinks"]},
+  {id:"priority", q:"What matters most to you?", hint:"One thing. Brahma weights everything else around it.", opts:["Authentic local culture","Best value for money","The full experience","Warm hospitality"]}
+];
+
+/* ── Sample results — used when no API key is set ─────────────────── */
+var SAMPLES = {
+  "Romantic": [
+    {name:"Ambrai Restaurant",category:"Restaurant",neighbourhood:"Lake Pichola",price_per_head:1800,price_label:"₹₹₹",description:"A lakeside terrace that sits so close to the water that the line between reflection and reality genuinely blurs at dusk — the kitchen matches the setting with Rajasthani cooking that does not perform for tourists.",why:"For a romantic evening, the combination of the lake view and the quiet service here creates something that is genuinely difficult to find in a city this visited.",tags:["Lakeside","Romantic"],book:true},
+    {name:"Upré by 1559 AD",category:"Restaurant",neighbourhood:"City Palace area",price_per_head:2200,price_label:"₹₹₹",description:"Rooftop dining above the old city with a direct sightline to the City Palace — the kitchen focuses on elevated Rajasthani flavours, and the staff know when to leave a table alone.",why:"The elevated position and the candlelit tables make this the most consistently romantic setting in Udaipur for a couple wanting an unhurried evening.",tags:["Rooftop","Heritage"],book:false},
+    {name:"Jaiwana Haveli Restaurant",category:"Restaurant",neighbourhood:"Old City",price_per_head:900,price_label:"₹₹",description:"An intimate rooftop set inside a 400-year-old haveli where the stones are worn smooth and the thali is cooked as it was intended — with time and care, not speed.",why:"If authentic Rajasthani atmosphere matters to you more than a lake view, this is the one — the setting is genuinely historic and the food is honest.",tags:["Heritage","Authentic"],book:false}
+  ],
+  "Peaceful": [
+    {name:"Millets of Mewar",category:"Cafe",neighbourhood:"Hanuman Ghat",price_per_head:450,price_label:"₹₹",description:"A small, quietly-run cafe beside the Hanuman Ghat steps that takes its brief seriously — millets, local produce, and an absence of the music that plagues most Udaipur rooftops.",why:"If what you need is genuinely quiet, this is one of the few places in the old city that earns the description — no DJ, no loudspeaker, just the ghats and your food.",tags:["Peaceful","Local"],book:false},
+    {name:"Fateh Prakash Palace",category:"Hotel",neighbourhood:"City Palace",price_per_head:3500,price_label:"₹₹₹₹",description:"Tea on the Crystal Gallery terrace of this palace hotel offers a level of calm that is genuinely insulating — the lake is in front of you and the 19th century is all around you.",why:"For a peaceful afternoon, this particular terrace is the most protected from the noise of the city while remaining in the heart of it.",tags:["Heritage","Tranquil"],book:false},
+    {name:"Badi Lake",category:"Experience",neighbourhood:"Badi Village",price_per_head:200,price_label:"₹",description:"Eleven kilometres from the city, this reservoir was built in 1652 and remains almost entirely free of tourism — the light here at late afternoon is what painters used to come to Udaipur to find.",why:"If genuine quiet is the priority, no location within reasonable reach of Udaipur is as reliably peaceful as this one.",tags:["Nature","Offbeat"],book:false}
+  ],
+  "default": [
+    {name:"Ambrai Restaurant",category:"Restaurant",neighbourhood:"Lake Pichola",price_per_head:1800,price_label:"₹₹₹",description:"A lakeside terrace that sits close enough to the water that the line between reflection and reality blurs at dusk — the kitchen matches the setting with cooking that does not perform for tourists.",why:"One of the most consistently good restaurants in Udaipur across multiple visits — the view earns its reputation and the kitchen backs it up.",tags:["Lakeside","Authentic"],book:true},
+    {name:"Natraj Dining Hall",category:"Restaurant",neighbourhood:"Old City",price_per_head:280,price_label:"₹",description:"An institution of the old city running for decades — the thali arrives in rapid succession and is refilled without ceremony, as it should be in a place that has never needed to advertise.",why:"If authentic Rajasthani food eaten the way locals eat it is what you're after, this is the clearest answer in Udaipur.",tags:["Authentic","Value"],book:false},
+    {name:"Fateh Sagar Lake",category:"Experience",neighbourhood:"Fatehsagar",price_per_head:150,price_label:"₹",description:"A boat ride on Fatehsagar as the evening drops offers Udaipur from the water rather than above it — a different city entirely, quieter and without the palace backdrop that tourists come for.",why:"For something genuinely local that most visitors miss, this is the experience that feels most like being in Udaipur rather than looking at it.",tags:["Local","Sunset"],book:false}
+  ]
+};
+
+/* ── State ─────────────────────────────────────────────────────────── */
+var step = 0;
+var answers = {};
+var picked = null;
+var results = [];
+var activePlace = {};
+var guestCount = 2;
+
+/* ── Navigation ─────────────────────────────────────────────────────── */
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── Welcome → Quiz ─────────────────────────────────────────────────── */
+function startQuiz() {
+  step = 0; answers = {}; picked = null;
+  renderQuestion();
+  goTo('question');
+}
+
+function reset() {
+  step = 0; answers = {}; picked = null; results = [];
+  goTo('welcome');
+}
+
+/* ── Question rendering ─────────────────────────────────────────────── */
+function renderQuestion() {
+  var q = QS[step];
+  picked = null;
+
+  // Progress bar
+  var prog = '';
+  for (var i = 0; i < QS.length; i++) {
+    var col = i <= step ? '#C8A84B' : '#242018';
+    var opa = i < step ? '.5' : i === step ? '1' : '.35';
+    prog += '<div class="p-dot" style="background:' + col + ';opacity:' + opa + '"></div>';
+  }
+  document.getElementById('prog').innerHTML = prog;
+
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-hint').textContent = q.hint;
+  document.getElementById('q-count').textContent = (step + 1) + ' of ' + QS.length;
+
+  var nb = document.getElementById('q-next');
+  nb.textContent = step === QS.length - 1 ? 'Show my picks →' : 'Continue →';
+  nb.classList.remove('ready');
+
+  var opts = '';
+  q.opts.forEach(function(o) {
+    opts += '<button class="opt" onclick="selectOpt(this,\'' + esc(o) + '\')">' +
+            '<span>' + esc(o) + '</span><span class="tick">✓</span></button>';
+  });
+  document.getElementById('q-opts').innerHTML = opts;
+}
+
+function selectOpt(el, val) {
+  document.querySelectorAll('.opt').forEach(function(b){b.classList.remove('selected');});
+  el.classList.add('selected');
+  picked = val;
+  document.getElementById('q-next').classList.add('ready');
+}
+
+/* ── Advance through questions ──────────────────────────────────────── */
+function advance() {
+  if (!picked) return;
+  answers[QS[step].id] = picked;
+  if (step < QS.length - 1) {
+    step++;
+    renderQuestion();
+  } else {
+    goTo('thinking');
+    fetchResults();
+  }
+}
+
+/* ── Fetch from Claude or use samples ───────────────────────────────── */
+async function fetchResults() {
+  if (API_KEY === "YOUR_API_KEY_HERE") {
+    // Demo mode — use sample data
+    await delay(2200);
+    var key = answers.mood || 'default';
+    results = SAMPLES[key] || SAMPLES['default'];
+    renderResults();
+    goTo('results');
+    return;
+  }
+
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1600,
+        system: 'You are Brahma, the smart editorial concierge for India Recommends in Udaipur, India. Recommend only real, specific establishments that exist in Udaipur. Write like a trusted local friend — specific, atmospheric, honest. Never use: amazing/wonderful/stunning/must-visit/gem/charming. Return valid JSON array only, nothing outside it. Each object: name, category (Restaurant/Cafe/Hotel/Experience/Bar), neighbourhood (specific Udaipur area), price_per_head (₹ number), price_label (₹/₹₹/₹₹₹/₹₹₹₹), description (one atmospheric editorial sentence), why (one sentence to the guest referencing their specific context), tags (array of 2 short strings), book (boolean — true for first pick only if well-known restaurant that accepts reservations).',
+        messages: [{
+          role: 'user',
+          content: 'Guest: Mood=' + answers.mood + ' | Budget=' + answers.budget + ' | Group=' + answers.group + ' | Time=' + answers.time + ' | Priority=' + answers.priority + '\n\nReturn JSON array of exactly 3 real Udaipur places.'
+        }]
+      })
+    });
+    var data = await resp.json();
+    var text = (data.content && data.content[0] && data.content[0].text) || '';
+    var match = text.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('parse');
+    results = JSON.parse(match[0]);
+    renderResults();
+    goTo('results');
+  } catch(e) {
+    console.error(e);
+    // Fallback to samples on error
+    results = SAMPLES[answers.mood] || SAMPLES['default'];
+    renderResults();
+    goTo('results');
+  }
+}
+
+/* ── Render results ─────────────────────────────────────────────────── */
+function renderResults() {
+  var a = answers;
+  document.getElementById('res-context').textContent =
+    'For ' + (a.group||'').toLowerCase() + ' · ' + (a.mood||'').toLowerCase() + ' · ' + (a.time||'').toLowerCase();
+
+  var ranks = ['First pick','Second pick','Third pick'];
+  var html = '';
+  results.forEach(function(p, i) {
+    var tags = (p.tags||[]).map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join('');
+    var bookBtn = p.book ? '<button class="btn-book" onclick="openBooking(' + i + ')">Book this · ₹299 curation fee</button>' : '';
+    html += '<div class="card">' +
+      '<div class="card-rank">' + String(i+1).padStart(2,'0') + ' · ' + ranks[i] + '</div>' +
+      '<div class="card-name">' + esc(p.name) + '</div>' +
+      '<div class="card-meta">' + esc(p.category) + ' · ' + esc(p.neighbourhood) + ' · ' + esc(p.price_label) + ' · ~₹' + (p.price_per_head||0).toLocaleString() + '/head</div>' +
+      '<div class="card-desc">' + esc(p.description) + '</div>' +
+      '<div class="card-why">"' + esc(p.why) + '"</div>' +
+      '<div class="card-tags">' + tags + '</div>' +
+      bookBtn +
+      '</div>';
+  });
+  document.getElementById('res-cards').innerHTML = html;
+}
+
+/* ── Open booking ───────────────────────────────────────────────────── */
+function openBooking(idx) {
+  activePlace = results[idx];
+  guestCount = 2;
+  document.getElementById('bk-name').textContent = activePlace.name;
+  document.getElementById('bk-meta').textContent = (activePlace.category||'') + ' · ' + (activePlace.neighbourhood||'') + ' · ' + (activePlace.price_label||'');
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('bk-date').min = today;
+  document.getElementById('bk-date').value = today;
+  document.getElementById('bk-gc').textContent = 2;
+  document.getElementById('bk-pname').value = '';
+  document.getElementById('bk-phone').value = '';
+  document.getElementById('bk-req').value = '';
+  updateMealEst();
+  goTo('booking');
+}
+
+function adjGuests(d) {
+  guestCount = Math.max(1, Math.min(12, guestCount + d));
+  document.getElementById('bk-gc').textContent = guestCount;
+  updateMealEst();
+}
+
+function updateMealEst() {
+  var pph = activePlace.price_per_head || 1800;
+  var est = (pph * guestCount).toLocaleString();
+  document.getElementById('bk-meal').innerHTML =
+    '<span>Est. meal · ' + guestCount + ' guest' + (guestCount > 1 ? 's' : '') + ' · ~₹' + pph.toLocaleString() + '/head</span>' +
+    '<span>₹' + est + '</span>';
+}
+
+/* ── Confirm booking ────────────────────────────────────────────────── */
+function confirmPay() {
+  var name  = document.getElementById('bk-pname').value.trim();
+  var phone = document.getElementById('bk-phone').value.trim();
+  var time  = document.getElementById('bk-time').value;
+  var req   = document.getElementById('bk-req').value.trim();
+  var date  = document.getElementById('bk-date').value;
+
+  if (!name || !phone) {
+    alert('Please enter your name and WhatsApp number.');
+    return;
+  }
+
+  var ref = 'BK-' + Math.floor(1000 + Math.random() * 9000);
+
+  document.getElementById('conf-place').textContent = activePlace.name;
+  document.getElementById('conf-area').textContent = activePlace.neighbourhood || '';
+
+  var rows = '';
+  rows += '<div class="conf-row"><span class="conf-key">Reference</span><span class="conf-val" style="color:#C8A84B;font-weight:500;letter-spacing:.06em">' + ref + '</span></div>';
+  rows += '<div class="conf-row"><span class="conf-key">Date</span><span class="conf-val">' + esc(date) + '</span></div>';
+  rows += '<div class="conf-row"><span class="conf-key">Time</span><span class="conf-val">' + esc(time) + '</span></div>';
+  rows += '<div class="conf-row"><span class="conf-key">Guests</span><span class="conf-val">' + guestCount + '</span></div>';
+  if (req) rows += '<div class="conf-row"><span class="conf-key">Requests</span><span class="conf-val">' + esc(req) + '</span></div>';
+  rows += '<div class="conf-row"><span class="conf-key">Paid</span><span class="conf-val" style="color:#4CAF72;font-weight:500">₹299 ✓</span></div>';
+  document.getElementById('conf-details').innerHTML = rows;
+
+  document.getElementById('conf-msg').innerHTML =
+    'The restaurant will confirm within 1 hour.<br>A WhatsApp confirmation is on its way to <strong>' + esc(phone) + '</strong>.';
+
+  goTo('confirmed');
+}
+
+/* ── Utilities ──────────────────────────────────────────────────────── */
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = String(s || '');
+  return d.innerHTML;
+}
+
+function delay(ms) {
+  return new Promise(function(r){ setTimeout(r, ms); });
+}
+</script>
+</body>
+</html>

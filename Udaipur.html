@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="description" content="India Recommends — the editorial guide to Udaipur. History, lakes, food, drinks, experiences, and hyper-local knowledge from an anonymous editor who has been everywhere.">
+<title>Udaipur — India Recommends</title>
+<style>
+/* ── Base ──────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#0A0A08; --surface:#111110; --border:#242018;
+  --gold:#C8A84B; --gold-dim:#7A6428; --gold-text:#D4B565;
+  --t1:#F2EAD6; --t2:#8A8070; --t3:#4A4535; --t4:#2A2820;
+  --lake:#2A6B8A; --food:#8A3B2A; --drink:#8A7020; --exp:#5A3A8A; --hist:#8A5A20; --life:#3A6A3A;
+}
+html{background:var(--bg);scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t1);font-family:Georgia,'Palatino Linotype',Palatino,serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+img{display:none;}
+a{color:inherit;text-decoration:none;}
+
+/* ── Nav ───────────────────────────────── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(10,10,8,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:.5px solid var(--border);padding:0 20px;}
+.nav-inner{display:flex;align-items:center;gap:0;max-width:820px;margin:0 auto;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-logo{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);white-space:nowrap;padding:14px 0;margin-right:20px;flex-shrink:0;}
+.nav-pills{display:flex;gap:2px;padding:8px 0;}
+.nav-pill{padding:5px 13px;border-radius:20px;font-size:11px;cursor:pointer;border:none;background:transparent;color:var(--t3);letter-spacing:.04em;white-space:nowrap;font-family:Georgia,serif;touch-action:manipulation;transition:all .15s;}
+.nav-pill:active,.nav-pill.active{background:var(--surface);color:var(--t1);}
+
+/* ── Hero ──────────────────────────────── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 28px;text-align:center;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 70%, #0D2030 0%, #0A0A08 70%);z-index:0;}
+.hero-stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%, #C8A84B22, transparent),radial-gradient(1px 1px at 60% 20%, #C8A84B18, transparent),radial-gradient(1px 1px at 80% 50%, #C8A84B15, transparent),radial-gradient(1px 1px at 40% 70%, #C8A84B12, transparent),radial-gradient(2px 2px at 10% 60%, #C8A84B20, transparent),radial-gradient(1px 1px at 90% 80%, #C8A84B18, transparent);z-index:1;}
+.hero-content{position:relative;z-index:2;max-width:600px;}
+.hero-lbl{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--t3);margin-bottom:24px;}
+.hero-city{font-size:clamp(52px,12vw,88px);font-weight:300;letter-spacing:-3px;color:var(--t1);line-height:.95;margin-bottom:16px;}
+.hero-tagline{font-size:clamp(15px,3vw,18px);color:var(--t2);font-style:italic;margin-bottom:28px;line-height:1.6;}
+.hero-rule{width:40px;height:1px;background:var(--gold-dim);margin:0 auto 28px;}
+.hero-desc{font-size:14px;color:var(--t3);line-height:1.85;max-width:380px;margin:0 auto 44px;}
+.hero-scroll{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--t4);margin-top:12px;}
+.hero-lake{position:absolute;bottom:0;left:0;right:0;height:180px;background:linear-gradient(180deg,transparent 0%,#0D2535 60%,#0A1A25 100%);z-index:1;}
+.hero-lake::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:linear-gradient(90deg,transparent 10%,#0D253520 50%,transparent 90%);}
+
+/* ── Sections ──────────────────────────── */
+.section{padding:72px 24px;max-width:820px;margin:0 auto;}
+.section-divider{height:.5px;background:var(--border);margin:0 24px;}
+.section-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;}
+.section-tag .dot{width:8px;height:8px;border-radius:50%;}
+.dot-lake{background:var(--lake);}
+.dot-hist{background:var(--hist);}
+.dot-food{background:var(--food);}
+.dot-drink{background:var(--drink);}
+.dot-exp{background:var(--exp);}
+.dot-life{background:var(--life);}
+.section-h{font-size:clamp(28px,6vw,40px);font-weight:300;letter-spacing:-1px;color:var(--t1);margin-bottom:12px;line-height:1.15;}
+.section-intro{font-size:16px;color:var(--t2);line-height:1.8;margin-bottom:36px;max-width:560px;}
+
+/* ── Pull quotes ───────────────────────── */
+.pull{border-left:3px solid var(--gold-dim);padding:16px 20px;margin:32px 0;background:#110F0A;border-radius:0 10px 10px 0;}
+.pull p{font-size:17px;color:var(--gold-text);font-style:italic;line-height:1.7;}
+.pull cite{font-size:11px;color:var(--t3);font-style:normal;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;display:block;}
+
+/* ── Content blocks ────────────────────── */
+.prose{font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:20px;}
+.prose strong{color:var(--t1);font-weight:500;}
+.prose em{color:var(--gold-text);font-style:italic;}
+
+/* ── Cards grid ────────────────────────── */
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin:28px 0;}
+@media(min-width:520px){.cards{grid-template-columns:1fr 1fr;}}
+.ccard{background:var(--surface);border:.5px solid var(--border);border-radius:13px;padding:20px 20px;}
+.ccard-tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
+.ccard-name{font-size:17px;font-weight:400;color:var(--t1);margin-bottom:6px;line-height:1.25;}
+.ccard-body{font-size:13px;color:var(--t2);line-height:1.75;}
+.ccard-note{font-size:11px;color:var(--t3);margin-top:8px;font-style:italic;}
+
+/* ── Full-width editorial blocks ────────── */
+.editorial{background:var(--surface);border-radius:14px;padding:28px 24px;margin:28px 0;border:.5px solid var(--border);}
+.editorial-title{font-size:20px;font-weight:400;color:var(--t1);margin-bottom:10px;}
+.editorial-body{font-size:14px;color:var(--t2);line-height:1.85;}
+.editorial-body strong{color:var(--t1);font-weight:500;}
+.editorial-meta{font-size:11px;color:var(--t3);margin-top:12px;letter-spacing:.06em;text-transform:uppercase;}
+
+/* ── Stats ─────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:28px 0;}
+.stat{background:var(--surface);border-radius:11px;padding:16px 14px;text-align:center;border:.5px solid var(--border);}
+.stat-n{font-size:26px;font-weight:300;color:var(--t1);letter-spacing:-1px;}
+.stat-l{font-size:11px;color:var(--t3);margin-top:4px;line-height:1.4;}
+
+/* ── Timeline ──────────────────────────── */
+.timeline{margin:28px 0;}
+.tl-item{display:flex;gap:16px;margin-bottom:24px;}
+.tl-year{font-size:13px;color:var(--gold-text);font-weight:500;min-width:44px;flex-shrink:0;padding-top:2px;}
+.tl-body{border-left:.5px solid var(--border);padding-left:16px;}
+.tl-title{font-size:14px;font-weight:500;color:var(--t1);margin-bottom:4px;}
+.tl-text{font-size:13px;color:var(--t2);line-height:1.7;}
+
+/* ── Brahma CTAs ───────────────────────── */
+.brahma-cta{background:linear-gradient(135deg,#0F0D08 0%,#151208 100%);border:.5px solid var(--gold-dim);border-radius:14px;padding:24px 22px;margin:36px 0;text-align:center;}
+.brahma-cta-lbl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
+.brahma-cta-h{font-size:18px;font-weight:400;color:var(--t1);margin-bottom:8px;}
+.brahma-cta-sub{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6;}
+.btn-brahma{display:inline-block;padding:13px 36px;background:var(--gold);border:none;border-radius:10px;color:#0A0A08;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.07em;font-family:Georgia,serif;touch-action:manipulation;-webkit-appearance:none;}
+.btn-brahma:active{background:#B89638;}
+
+/* ── Food items ────────────────────────── */
+.food-item{display:flex;gap:14px;margin-bottom:20px;align-items:flex-start;}
+.food-num{width:32px;height:32px;border-radius:50%;background:#120A08;border:.5px solid #3A1A10;display:flex;align-items:center;justify-content:center;font-size:12px;color:#C84B3B;flex-shrink:0;margin-top:2px;}
+.food-body{flex:1;}
+.food-name{font-size:15px;font-weight:500;color:var(--t1);margin-bottom:4px;}
+.food-desc{font-size:13px;color:var(--t2);line-height:1.7;}
+
+/* ── Lake cards ────────────────────────── */
+.lake-card{background:linear-gradient(135deg,#080D14 0%,#0A1220 100%);border:.5px solid #1A3A52;border-radius:13px;padding:22px 20px;margin-bottom:12px;}
+.lake-name{font-size:18px;font-weight:400;color:#8ABCD6;margin-bottom:4px;}
+.lake-year{font-size:11px;color:#3A6A8A;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+.lake-body{font-size:13px;color:var(--t2);line-height:1.8;}
+.lake-fact{font-size:12px;color:#3A6A8A;margin-top:10px;font-style:italic;}
+
+/* ── Neighbourhood ─────────────────────── */
+.hood{border-left:3px solid #2A3A8A;padding:16px 18px;background:#08090F;border-radius:0 10px 10px 0;margin-bottom:14px;}
+.hood-name{font-size:16px;font-weight:500;color:var(--t1);margin-bottom:6px;}
+.hood-body{font-size:13px;color:var(--t2);line-height:1.75;}
+
+/* ── Hidden gems ───────────────────────── */
+.gem{display:flex;gap:12px;align-items:flex-start;padding:16px 0;border-bottom:.5px solid var(--border);}
+.gem:last-child{border-bottom:none;}
+.gem-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.gem-name{font-size:15px;font-weight:500;color:var(--t1);margin-bottom:4px;}
+.gem-body{font-size:13px;color:var(--t2);line-height:1.7;}
+
+/* ── Hero Brahma ───────────────────────── */
+.hero-brahma{display:inline-block;padding:15px 44px;background:var(--gold);border:none;border-radius:11px;color:#0A0A08;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.07em;font-family:Georgia,serif;touch-action:manipulation;}
+.hero-brahma:active{background:#B89638;}
+
+/* ── Footer ────────────────────────────── */
+.footer{padding:48px 24px;text-align:center;border-top:.5px solid var(--border);}
+.footer-logo{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
+.footer-brand{font-size:32px;font-weight:300;color:var(--t1);letter-spacing:-1px;margin-bottom:8px;}
+.footer-sub{font-size:13px;color:var(--t3);margin-bottom:28px;}
+.footer-note{font-size:11px;color:var(--t4);line-height:1.7;}
+
+/* ── Responsive ────────────────────────── */
+@media(min-width:680px){
+  .section{padding:80px 32px;}
+  .hero{padding:64px 48px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-logo">India Recommends</span>
+    <div class="nav-pills">
+      <button class="nav-pill" onclick="scrollTo('history')">History</button>
+      <button class="nav-pill" onclick="scrollTo('lakes')">Lakes</button>
+      <button class="nav-pill" onclick="scrollTo('food')">Food</button>
+      <button class="nav-pill" onclick="scrollTo('drinks')">Drinks</button>
+      <button class="nav-pill" onclick="scrollTo('experiences')">Experiences</button>
+      <button class="nav-pill" onclick="scrollTo('neighbourhoods')">Neighbourhoods</button>
+      <button class="nav-pill" onclick="scrollTo('hidden')">Hidden</button>
+      <button class="nav-pill" onclick="scrollTo('lifestyle')">Lifestyle</button>
+      <button class="nav-pill" onclick="scrollTo('brahma-full')">Brahma</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars"></div>
+  <div class="hero-lake"></div>
+  <div class="hero-content">
+    <div class="hero-lbl">India Recommends presents</div>
+    <div class="hero-city">Udaipur</div>
+    <div class="hero-tagline">The city that refused to be taken</div>
+    <div class="hero-rule"></div>
+    <div class="hero-desc">A hyper-local editorial guide to one of the most extraordinary cities in India. History, lakes, food, hidden places, and everything in between — written by an editor who has paid for every meal and borrowed nothing.</div>
+    <button class="hero-brahma" onclick="scrollTo('brahma-full')">Let Brahma guide your visit</button>
+    <div class="hero-scroll" style="margin-top:48px;">Scroll to explore ↓</div>
+  </div>
+</section>
+
+<!-- ══ HISTORY ════════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="history">
+  <div class="section-tag"><span class="dot dot-hist"></span><span style="color:#8A7040;">History</span></div>
+  <h2 class="section-h">The city built from refusal</h2>
+  <p class="section-intro">Udaipur did not happen by ambition. It happened by necessity — and out of a defeat that the Mewar clan refused to accept as final.</p>
+
+  <div class="pull">
+    <p>"The Rajputs of Mewar were the only Rajput clan that never gave their daughters to the Mughal emperor. In an era when diplomatic survival meant accommodation, Mewar chose to burn its own capital rather than submit."</p>
+    <cite>The history of the Lake City</cite>
+  </div>
+
+  <div class="prose">
+    In 1568, Akbar besieged Chittorgarh — the ancient capital of the Mewar kingdom, perched on a fort that had stood for centuries. The fort fell. But Maharana Udai Singh II had already moved his court southward into the Aravalli hills, to a valley hidden by ridges on three sides and opened toward a lake on the fourth. He founded a new city there in 1559 — nine years before Chittorgarh fell — as if he had known what was coming.
+  </div>
+
+  <div class="prose">
+    The city he built around Lake Pichola became <strong>Udaipur</strong> — named for Udai Singh himself. It remained the capital of the Mewar Rajput kingdom for the next four centuries and was the only Rajput kingdom that Akbar never fully absorbed. That defiance is not a footnote. It is the character of the city.
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1326</div>
+      <div class="tl-body">
+        <div class="tl-title">Pichhu Banjara builds the first dam</div>
+        <div class="tl-text">A grain carrier named Pichhu Banjara, travelling through the valley, builds a small earthen dam across two streams. The resulting lake will later bear his name, slightly altered: Pichola.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1559</div>
+      <div class="tl-body">
+        <div class="tl-title">Maharana Udai Singh II founds Udaipur</div>
+        <div class="tl-text">The Maharana discovers the valley while hunting, finds a sage meditating by the lake who promises it will never fall to enemies, and begins construction of a new capital. Udaipur is born.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1568</div>
+      <div class="tl-body">
+        <div class="tl-title">The fall of Chittorgarh — the Jauhar</div>
+        <div class="tl-text">When Akbar's forces take Chittorgarh, 8,000 Rajput women perform <em>jauhar</em> — mass self-immolation — rather than face capture. The men then fight to the last. It is one of the most consequential events in Rajputana history. Udaipur becomes the new seat of Mewar pride.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1615</div>
+      <div class="tl-body">
+        <div class="tl-title">Maharana Amar Singh signs with the Mughals</div>
+        <div class="tl-text">After years of guerrilla resistance by Maharana Pratap (the most celebrated warrior of Mewar), his successor eventually signs a treaty with Emperor Jahangir. But unlike other Rajput clans, Mewar still refuses to give a daughter in marriage. The core dignity holds.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1947</div>
+      <div class="tl-body">
+        <div class="tl-title">Accession to India</div>
+        <div class="tl-text">The last Maharana, Bhupal Singh, signs the instrument of accession to independent India. The palace he lived in is now a hotel. The lake it overlooks is still there. The city it built has been welcoming visitors ever since.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial">
+    <div class="editorial-title">Maharana Pratap — the man the city remembers</div>
+    <div class="editorial-body">
+      No figure looms larger over Udaipur than Maharana Pratap Singh, who ruled Mewar from 1572 until his death in 1597. After the Mughal victory at the Battle of Haldighati in 1576 — a battle Pratap lost but did not lose his resolve in — he spent years in the Aravalli hills conducting guerrilla warfare against the largest empire on earth, refusing every offer of peace that required submission. His horse Chetak, who carried him wounded from the battle of Haldighati and died shortly after, is remembered to this day. <strong>There are statues of Chetak in Udaipur that are tended more carefully than some historical monuments.</strong>
+    </div>
+    <div class="editorial-meta">Mewar Dynasty · Rajputana</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">1559</div><div class="stat-l">Year Udaipur was founded</div></div>
+    <div class="stat"><div class="stat-n">466+</div><div class="stat-l">Years of continuous Mewar heritage</div></div>
+    <div class="stat"><div class="stat-n">76</div><div class="stat-l">Maharanas ruled from Udaipur</div></div>
+  </div>
+
+  <div class="brahma-cta">
+    <div class="brahma-cta-lbl">India Recommends</div>
+    <div class="brahma-cta-h">See the history in person</div>
+    <div class="brahma-cta-sub">The City Palace, the cenotaphs of Ahar, the fort of Chittorgarh — let Brahma plan your historical trail.</div>
+    <button class="btn-brahma" onclick="scrollTo('brahma-full')">Ask Brahma →</button>
+  </div>
+</section>
+
+<!-- ══ LAKES ══════════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="lakes">
+  <div class="section-tag"><span class="dot dot-lake"></span><span style="color:#3A8A9A;">Lakes</span></div>
+  <h2 class="section-h">Six lakes and what they know</h2>
+  <p class="section-intro">Udaipur is not called the City of Lakes as a marketing tagline. It is a geographic fact. The city was built around water, reshaped by water, and has been defined by it for 460 years.</p>
+
+  <div class="prose">
+    Most visitors see Lake Pichola — the famous one with the palace in the middle — and consider themselves to have understood Udaipur's relationship with water. They have seen the introduction. The real book is elsewhere.
+  </div>
+
+  <div class="lake-card">
+    <div class="lake-name">Lake Pichola</div>
+    <div class="lake-year">Built 1362 · Enlarged 1559 · 4km long</div>
+    <div class="lake-body">The most famous lake in Udaipur was not built by a king. It was built by <em>Pichhu Banjara</em> — a grain carrier — who dammed two streams during his travels. The Maharana who later enlarged it, and the Maharana after that, and the one after that, added 4 islands and a city to its edges. The Jag Niwas island palace is now the Taj Lake Palace — a hotel that appears to float. The Jag Mandir island was where Shah Jahan, before he became emperor, found refuge from his father Jahangir. The Mughal prince fleeing to a Rajput lake to escape his own father is the kind of history this city collects quietly.</div>
+    <div class="lake-fact">Best experienced: at dusk from the Ambrai ghats, or by boat at sunrise before the tour groups arrive.</div>
+  </div>
+
+  <div class="lake-card">
+    <div class="lake-name">Fatehsagar Lake</div>
+    <div class="lake-year">Built 1678, rebuilt 1889 · Connects to Pichola by canal</div>
+    <div class="lake-body">The second great lake of Udaipur was built by Maharana Jai Singh and breached in a flood less than a century later. Maharana Fateh Singh had it rebuilt in 1889 using modern engineering, and it now bears his name. Three islands sit in the middle — one has a public park, one has a solar observatory, one is largely ignored by the tourists taking boat rides. The promenade around Fatehsagar in the early evening is where Udaipur's residents actually walk. It is the most local lake experience in the city.</div>
+    <div class="lake-fact">Best experienced: walking the promenade at 6pm as the city goes about its evening.</div>
+  </div>
+
+  <div class="lake-card">
+    <div class="lake-name">Udaisagar Lake</div>
+    <div class="lake-year">Built by Maharana Udai Singh · 1565</div>
+    <div class="lake-body">The eastern lake, built six years after the city itself, sits at the city's edge and receives none of the tourist attention that Pichola gets. The reservoir was built to provide drought insurance and today it remains partially functional for that purpose. The lakeside is quiet, the light in late afternoon is extraordinary, and on most days you can be the only non-local person there. This is not a selling point of most Udaipur travel guides. That is precisely why it matters.</div>
+    <div class="lake-fact">Best experienced: a morning drive, a flask of tea, no agenda.</div>
+  </div>
+
+  <div class="lake-card">
+    <div class="lake-name">Badi Lake</div>
+    <div class="lake-year">Built 1652 by Maharana Raj Singh · 11km from the city</div>
+    <div class="lake-body">The most beautiful body of water near Udaipur that almost no international visitor sees. Built as the overflow reservoir for the city's water system, Badi — meaning "big" — sits in a fold of the Aravalli hills surrounded by nothing but scrub and rock. Artists came to paint here. The light in late afternoon reaches a quality that photographers spend entire days trying to find. There are no restaurants, no boat rides, no guides. There is a lake and there is silence.</div>
+    <div class="lake-fact">Best experienced: late October to March, arriving by 4pm with enough time to stay for the light.</div>
+  </div>
+
+  <div class="pull">
+    <p>"The lake does not care about the palace on its edge. It was here before the palace and it will be here after. What it does, without trying, is make the palace beautiful."</p>
+    <cite>On Lake Pichola</cite>
+  </div>
+
+  <div class="brahma-cta">
+    <div class="brahma-cta-lbl">India Recommends</div>
+    <div class="brahma-cta-h">Find your lake experience</div>
+    <div class="brahma-cta-sub">Boat rides, lakeside dining, sunset walks — Brahma matches the right lake experience to your mood and group.</div>
+    <button class="btn-brahma" onclick="scrollTo('brahma-full')">Ask Brahma →</button>
+  </div>
+</section>
+
+<!-- ══ FOOD ════════════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="food">
+  <div class="section-tag"><span class="dot dot-food"></span><span style="color:#8A4A3A;">Food</span></div>
+  <h2 class="section-h">What Rajasthan actually eats</h2>
+  <p class="section-intro">Most visitors to Udaipur eat a version of Rajasthani food designed for people who think they want Rajasthani food. The real cooking is available — you just need to know where the distinction lies.</p>
+
+  <div class="prose">
+    Rajasthani cuisine was born of the desert. <strong>Scarcity shaped every dish.</strong> The lack of water, the long distances between towns, the heat that spoiled fresh produce — all of these produced a cooking tradition that values preservation, intensity of flavour, and the kind of meals that can sustain you through a day's journey. That history is still visible in every proper thali in this city.
+  </div>
+
+  <div class="food-item">
+    <div class="food-num">1</div>
+    <div class="food-body">
+      <div class="food-name">Dal Baati Churma</div>
+      <div class="food-desc">The most iconic meal in Rajasthan and the dish that most clearly explains the cuisine's relationship with the desert. Baati are hard wheat balls baked directly in fire — they keep for days without refrigeration and sustained armies on campaign. Served with five-pulse dal and churma, a sweet crumbled wheat mixture with jaggery. <strong>The version you want is baked in wood fire, not oven-baked.</strong> The difference is not subtle.</div>
+    </div>
+  </div>
+
+  <div class="food-item">
+    <div class="food-num">2</div>
+    <div class="food-body">
+      <div class="food-name">Laal Maas</div>
+      <div class="food-desc">Red meat — literally. A mutton curry made with dried Mathania chillies from Jodhpur that gives the dish an extraordinary scarlet colour and a heat that builds slowly. This is not a tourist-friendly dish and the best versions in Udaipur are found in places that are not trying to be tourist-friendly. Originally a hunting camp meal for Rajput nobility, it remains one of the most distinctly Rajasthani dishes in existence.</div>
+    </div>
+  </div>
+
+  <div class="food-item">
+    <div class="food-num">3</div>
+    <div class="food-body">
+      <div class="food-name">Ker Sangri</div>
+      <div class="food-desc">The desert bean and the desert berry — <em>ker</em> grows wild on thorny shrubs, <em>sangri</em> is the bean of the khejri tree that Rajasthan has protected for centuries. Dried, soaked, and cooked together with dried spices and no fresh vegetables, this dish is the product of a landscape that offers almost nothing and demands creativity. It tastes like the desert if the desert were edible. It is not available in most Udaipur restaurants. Finding it is worth the effort.</div>
+    </div>
+  </div>
+
+  <div class="food-item">
+    <div class="food-num">4</div>
+    <div class="food-body">
+      <div class="food-name">Mawa Kachori</div>
+      <div class="food-desc">The sweet kachori of Udaipur is a fried pastry stuffed with thickened milk solids, khoya, and dry fruits — dipped in sugar syrup and eaten hot. It was invented in Jodhpur but perfected in the old city sweet shops of Udaipur. <strong>At ₹40-60 a piece, it is the best value food experience in the city.</strong> Eat it within five minutes of it being made or accept a lesser version.</div>
+    </div>
+  </div>
+
+  <div class="food-item">
+    <div class="food-num">5</div>
+    <div class="food-body">
+      <div class="food-name">The Rajasthani Thali</div>
+      <div class="food-desc">A proper thali in Rajasthan is not a sampler plate. It is the entire meal delivered in courses on a single large tray, refilled until you indicate you are done, which is considered acceptable only when genuinely full. The components vary but will typically include dal, sabzi (two or three), baati or roti, rice, papad, pickle, chutney, and a sweet. <strong>The honest versions are in the old city, not the hotel restaurants, and they cost a fraction of what the hotels charge.</strong></div>
+    </div>
+  </div>
+
+  <div class="food-item">
+    <div class="food-num">6</div>
+    <div class="food-body">
+      <div class="food-name">Mirchi Bada</div>
+      <div class="food-desc">A large green chilli stuffed with a spiced potato mixture, battered in gram flour, and deep-fried. A street food staple across Rajasthan that achieves its peak form in Udaipur's old city evening markets. Eaten with tamarind chutney at a standing stall while the old city does its evening business around you. There is no better way to spend ₹25 in Udaipur.</div>
+    </div>
+  </div>
+
+  <div class="brahma-cta">
+    <div class="brahma-cta-lbl">India Recommends</div>
+    <div class="brahma-cta-h">Find your table in Udaipur</div>
+    <div class="brahma-cta-sub">Every restaurant in Brahma's database was visited anonymously, full price paid, scored across six dimensions. No paid listings. No tourist traps.</div>
+    <button class="btn-brahma" onclick="scrollTo('brahma-full')">Ask Brahma →</button>
+  </div>
+</section>
+
+<!-- ══ DRINKS ══════════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="drinks">
+  <div class="section-tag"><span class="dot dot-drink"></span><span style="color:#8A7A30;">Drinks</span></div>
+  <h2 class="section-h">What to drink and when</h2>
+  <p class="section-intro">Udaipur's drinking culture spans 5,000-year-old traditions and contemporary rooftop bars facing a medieval palace. Both deserve attention.</p>
+
+  <div class="cards">
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#8A7A30;">Traditional</div>
+      <div class="ccard-name">Kesariya Lassi</div>
+      <div class="ccard-body">The saffron lassi of Rajasthan is thick enough to eat with a spoon and cold enough to survive the afternoon heat. Made with full-fat yoghurt, saffron, rose water, and cardamom, it was originally a morning drink for those who had been awake since dawn prayers. In Udaipur it is served in earthen cups at old city shops and should be consumed immediately. The earthen cup is part of the taste.</div>
+      <div class="ccard-note">Where: the chai and lassi shops of the old city, particularly near Jagdish Temple</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#8A7A30;">Traditional</div>
+      <div class="ccard-name">Masala Chai — at the Ghats</div>
+      <div class="ccard-body">Tea in Udaipur is not a beverage. It is a social institution. The correct version is made with ginger, cardamom, black pepper, cloves, and enough milk that the tea is an afterthought to the spice. Drunk in small glasses at the ghat steps as the city wakes, it is the best sensory experience Udaipur offers for under ₹15.</div>
+      <div class="ccard-note">When: 6am to 8am at the Hanuman Ghat steps</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#8A7A30;">Traditional</div>
+      <div class="ccard-name">Chaas (Spiced Buttermilk)</div>
+      <div class="ccard-body">Rajasthan's answer to the heat. Diluted yoghurt spiced with cumin, green chilli, fresh coriander, and black salt, churned and served cold. A meal in itself at midday in summer. The version in roadside stalls tastes better than the version in restaurants. There is a thermodynamic reason for this that nobody has satisfactorily explained.</div>
+      <div class="ccard-note">Available: street food stalls and traditional restaurants, April to September particularly</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#5A6A9A;">Contemporary</div>
+      <div class="ccard-name">Rooftop Sundowners</div>
+      <div class="ccard-body">Udaipur's rooftop bar scene has expanded considerably in the last decade. The best of them combine the City Palace view with cocktails that use local ingredients — kokum, aamchur, dried rose petals, local spirits. The view at dusk is consistent across most rooftops. The quality of what you are drinking is not. Brahma knows which bars earn their reputation and which are selling the view.</div>
+      <div class="ccard-note">Best time: 6pm to 8pm, October through March</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#5A9A6A;">Cultural</div>
+      <div class="ccard-name">Thandai</div>
+      <div class="ccard-body">A cold milk drink made with ground almonds, fennel seeds, poppy seeds, rose petals, cardamom, saffron, and pepper. Associated with Holi and Mahashivratri but available year-round in Udaipur's traditional sweet shops. There is a version made with bhang (cannabis paste) that is legal in Rajasthan and available from licensed shops near the old city. The plain version is excellent enough.</div>
+      <div class="ccard-note">Available: traditional sweet shops and selected old city restaurants</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#5A6A9A;">Contemporary</div>
+      <div class="ccard-name">Filter Coffee at Independent Cafes</div>
+      <div class="ccard-body">The independent cafe scene in Udaipur has quietly become one of the best in Rajasthan. A generation of local proprietors who spent time in Bangalore and Bombay have returned with an understanding of what good coffee is and what a good cafe should feel like. Several of them are now among the city's most interesting spaces and none of them existed fifteen years ago.</div>
+      <div class="ccard-note">Brahma knows which ones are worth seeking out</div>
+    </div>
+  </div>
+
+  <div class="brahma-cta">
+    <div class="brahma-cta-lbl">India Recommends</div>
+    <div class="brahma-cta-h">Find the right drink for your Udaipur evening</div>
+    <div class="brahma-cta-sub">Rooftop cocktails or ghat-side chai — Brahma matches the experience to your mood.</div>
+    <button class="btn-brahma" onclick="scrollTo('brahma-full')">Ask Brahma →</button>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCES ═════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="experiences">
+  <div class="section-tag"><span class="dot dot-exp"></span><span style="color:#7A5AAA;">Experiences</span></div>
+  <h2 class="section-h">What to actually do</h2>
+  <p class="section-intro">Udaipur's experience economy has two speeds: what every visitor does, and what most visitors miss. Both have value. Only one of them will make you feel like you understood the city.</p>
+
+  <div class="editorial">
+    <div class="editorial-title">City Palace — the most significant palace in Rajasthan</div>
+    <div class="editorial-body">There are larger palaces in India. There are more photographed palaces. There are none that contain more accumulated history per square metre than the City Palace of Udaipur, which was built, extended, modified, and added to by every Maharana from Udai Singh II in 1553 until the 20th century. The result is not an architectural masterpiece — it is too unplanned for that — but it is an authentic accumulation of 400 years of royal living that no other palace in the country matches. <strong>Allow three hours minimum. Go in the morning before the tour groups arrive. The museum section is more interesting than the ticket price suggests.</strong></div>
+    <div class="editorial-meta">City Palace Complex · Old City · Allow 3 hours</div>
+  </div>
+
+  <div class="editorial">
+    <div class="editorial-title">Boat ride on Lake Pichola — not the way you think</div>
+    <div class="editorial-body">The standard tourist boat ride on Lake Pichola takes you to Jag Mandir island, lets you off for 30 minutes, and brings you back. This is acceptable. What is better is hiring a private boat at dusk — when the palace lights are beginning to come on, the white marble of the Taj Lake Palace is going amber in the failing light, and the flamingos that winter at the lake's northern end are moving to their roosting sites. <strong>The better boat operators are known to their hotels. The public jetty boats are cheaper and less personal.</strong> Brahma knows the difference.</div>
+    <div class="editorial-meta">Lake Pichola · Best at dusk · 45 minutes to 2 hours</div>
+  </div>
+
+  <div class="editorial">
+    <div class="editorial-title">Jagdish Temple — living 17th century worship</div>
+    <div class="editorial-body">Built in 1651 by Maharana Jagat Singh I, this Vishnu temple at the top of the old city's main steps has been in continuous worship for 370 years. This is not a museum. It is a functioning temple where the morning and evening <em>aarti</em> ceremonies draw local worshippers alongside tourists. The aarti at dusk, with the brass bells and incense and the old city spreading out behind you, is one of the genuinely moving experiences available in Udaipur. It costs nothing and requires nothing other than respectful attention.</div>
+    <div class="editorial-meta">Near City Palace · Evening aarti at dusk · Free</div>
+  </div>
+
+  <div class="cards">
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#7A5AAA;">Cultural</div>
+      <div class="ccard-name">Bagore ki Haveli — Mewar's cultural museum</div>
+      <div class="ccard-body">A 250-year-old haveli on the Gangori Ghat that now houses a museum of Mewar culture and a daily evening dance performance. The haveli itself is extraordinary — 138 rooms, original furnishings, a rooftop with a view that has not changed in 200 years. The evening Dharohar folk dance performance is the most accessible introduction to Mewar's performing arts traditions.</div>
+      <div class="ccard-note">Gangori Ghat · Evening performance daily · Modest entry fee</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#7A5AAA;">Craft</div>
+      <div class="ccard-name">Miniature painting workshop</div>
+      <div class="ccard-body">Udaipur's school of miniature painting is one of the oldest in India. The Mewar royal court employed painters for centuries, documenting court life, religious stories, and hunts in a style characterised by rich colour, fine detail, and a perspective system that places importance over physical reality. Several genuinely talented painters in the old city offer workshops. The right ones can teach you to appreciate what you are looking at even if you cannot replicate it.</div>
+      <div class="ccard-note">Old City workshops · Half-day to full-day · Brahma recommends verified teachers</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#5A9A6A;">Nature</div>
+      <div class="ccard-name">Sajjangarh — Monsoon Palace at dusk</div>
+      <div class="ccard-body">The Monsoon Palace sits on the highest hill above Udaipur — built in 1884 by Maharana Sajjan Singh to watch monsoon clouds approach from the distance. The monsoon clouds he wanted to watch never came — he died before construction finished — but the view from the hilltop at dusk, with the entire city and all its lakes spread below you, is the best overview of Udaipur in existence.</div>
+      <div class="ccard-note">6km from city centre · Best at sunset · Open until 6pm</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#5A9A6A;">Local</div>
+      <div class="ccard-name">Shilpgram — the living crafts village</div>
+      <div class="ccard-body">A government-built village of tribal and folk dwellings from across western India, staffed by craftspeople who demonstrate their work. On paper it sounds artificial. In practice, on a weekday when it is uncrowded, it is one of the most interesting cultural spaces in Rajasthan — particularly the pottery, weaving, and instrument-making demonstrations. The annual Shilpgram Festival in December brings craftspeople from across the country.</div>
+      <div class="ccard-note">Near Fatehsagar Lake · Tuesday to Sunday · Most interesting on weekdays</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#8A7A30;">Cooking</div>
+      <div class="ccard-name">Rajasthani cooking class</div>
+      <div class="ccard-body">Learning to make dal baati churma — properly, with wood fire, with a teacher who grew up making it — is the most useful experience available in Udaipur. The skill travels home with you. Several homes in the old city offer genuine cooking sessions where you shop for the ingredients in the morning market before cooking. The market component alone is worth it.</div>
+      <div class="ccard-note">Morning classes most common · 4-5 hours including market visit</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#3A8A9A;">Festival</div>
+      <div class="ccard-name">Mewar Festival — March</div>
+      <div class="ccard-body">Celebrated at the beginning of spring, the Mewar Festival marks the arrival of the season with processions, folk music, dance, and the floating of oil lamps on Lake Pichola. Unlike some Indian festivals that have become primarily tourist events, the Mewar Festival retains genuine local participation. The procession from the City Palace to the Gangori Ghat on the first evening is the visual centrepiece.</div>
+      <div class="ccard-note">March · Dates follow the Hindu calendar · Free public celebration</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEIGHBOURHOODS ══════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="neighbourhoods">
+  <div class="section-tag"><span class="dot" style="background:#4A6AC8;"></span><span style="color:#4A6AC8;">Neighbourhoods</span></div>
+  <h2 class="section-h">Where the city actually lives</h2>
+  <p class="section-intro">Every part of Udaipur has a different character. Where you spend your time determines what city you experience.</p>
+
+  <div class="hood">
+    <div class="hood-name">The Old City</div>
+    <div class="hood-body">The original Udaipur — the narrow lanes, the havelis, the temples, the sweet shops, the steps leading down to the ghats. This is where the city started and it remains its most alive neighbourhood. The streets are too narrow for cars in many places and the pace is pedestrian in both senses of the word. The evening light in the old city lanes in October is something painters have been trying to capture for 400 years. Most visitors walk through it looking for the lake view. The lake view is there. So is everything else.</div>
+  </div>
+
+  <div class="hood">
+    <div class="hood-name">Hanuman Ghat and Gangori Ghat</div>
+    <div class="hood-body">The ghats of Udaipur are the city's edge — where the stone steps of the old city meet the water of Lake Pichola. Hanuman Ghat is the spiritual one, where morning prayers and evening rituals happen with clockwork regularity. Gangori Ghat is the social one — the dhobi wallahs, the boatmen, the teenagers, the old men playing cards. Together they are the most honest slice of daily Udaipur life available to a visitor who is paying attention.</div>
+  </div>
+
+  <div class="hood">
+    <div class="hood-name">City Palace Area</div>
+    <div class="hood-body">The quarter that surrounds the City Palace is Udaipur's historical and tourist centre — which means it is crowded, expensive, and beautiful in equal measure. The good hotels are here. The good view restaurants are here. The heritage shops selling miniature paintings, block print textiles, and silver jewellery are here — along with the indifferent ones. The discipline is in knowing which category any given shop falls into before you walk through the door.</div>
+  </div>
+
+  <div class="hood">
+    <div class="hood-name">Fatehsagar Lake Road</div>
+    <div class="hood-body">The promenade around Fatehsagar is where Udaipur's residents go for their evenings out — the cafes here are more local than the old city options, the food stalls more authentic, the prices lower. On weekend evenings it is one of the most pleasant public spaces in Rajasthan. On weekday mornings it is almost empty and available to whoever has the good sense to arrive before everyone else.</div>
+  </div>
+
+  <div class="hood">
+    <div class="hood-name">Hathi Pol Bazaar</div>
+    <div class="hood-body">The wholesale market of Udaipur — not designed for tourists, not organised for browsing, not interested in whether you know what you are looking at. The block print fabric here costs 40% of what it costs in the old city boutiques. The silver is priced by weight. The marble work is sold by the piece rather than the sentiment. If you know what you want and can negotiate in the knowledge that you may lose, this is the most interesting shopping in Udaipur.</div>
+  </div>
+
+  <div class="hood">
+    <div class="hood-name">Badi Village and Beyond</div>
+    <div class="hood-body">Eleven kilometres south of the city, the village of Badi sits beside the lake that bears its name. The drive there passes through the kind of Rajasthani countryside — sparse, rocky, intensely coloured in the late afternoon — that the city itself cannot show you. The village has a weekly market that draws craftspeople from the surrounding area. The lake at its edge is the best-kept secret near Udaipur.</div>
+  </div>
+</section>
+
+<!-- ══ HIDDEN UDAIPUR ══════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="hidden">
+  <div class="section-tag"><span class="dot" style="background:#6A3A6A;"></span><span style="color:#8A5A8A;">Hidden Udaipur</span></div>
+  <h2 class="section-h">What most visitors never find</h2>
+  <p class="section-intro">Udaipur is not a difficult city to discover. But there is a version of it that requires a degree of intention that most itineraries do not include.</p>
+
+  <div class="gem">
+    <div class="gem-icon">⬡</div>
+    <div>
+      <div class="gem-name">The Ahar Cenotaphs</div>
+      <div class="gem-body">Two kilometres east of the city, the royal cremation ground of the Mewar dynasty contains 250 cenotaphs erected over five centuries to the Maharanas of Mewar. The largest is an extraordinary structure — 84 pillars supporting a central dome. Almost no tourists come here. The scale of it, and the silence around it, is the most powerful historical site near Udaipur that is not the City Palace.</div>
+    </div>
+  </div>
+
+  <div class="gem">
+    <div class="gem-icon">⬡</div>
+    <div>
+      <div class="gem-name">Eklingji Temple Complex</div>
+      <div class="gem-body">22 kilometres north of Udaipur, the Eklingji temple complex is the spiritual seat of the Mewar Maharanas — the patron deity of their dynasty for 1,500 years. It is a functioning pilgrimage site, not a museum, and it is visited primarily by Hindu pilgrims. The architecture is extraordinary — over 100 temples and shrines concentrated in a small area, ranging from the 8th to the 15th century, surrounding the principal Shiva shrine. The Monday morning ritual is the most significant.</div>
+    </div>
+  </div>
+
+  <div class="gem">
+    <div class="gem-icon">⬡</div>
+    <div>
+      <div class="gem-name">The Vintage and Classic Car Collection</div>
+      <div class="gem-body">The Mewar royal family's collection of vintage cars — including a 1934 Rolls-Royce, a 1938 Cadillac, and a 1939 Lincoln — is housed in a converted stable near the City Palace. It is one of the finest private vintage car collections in Asia and it is visited by almost nobody, because its location is not well signposted and its name is not romantic. The Rolls-Royces alone justify the entry fee.</div>
+    </div>
+  </div>
+
+  <div class="gem">
+    <div class="gem-icon">⬡</div>
+    <div>
+      <div class="gem-name">Monsoon Season — July to September</div>
+      <div class="gem-body">Most travel guides steer you away from Udaipur in monsoon season. This is a mistake made by people who have not been there between July and September. The lakes fill, the desert turns green for exactly four weeks, the city takes on a quality of light that is found nowhere else in India, and the tourists largely disappear. The Teej and Hariyali festivals happen during this period. Hotel rates drop by 40%. The food is at its best. Monsoon Udaipur is the city at its most genuine.</div>
+    </div>
+  </div>
+
+  <div class="gem">
+    <div class="gem-icon">⬡</div>
+    <div>
+      <div class="gem-name">The Evening Market at Bada Bazaar</div>
+      <div class="gem-body">The old city market after 7pm, when the tourist shops close and the daily market opens. Vegetables, spices, street food, the hardware that keeps old stone buildings functioning, the fabric that local tailors use rather than the block print sold to visitors. The smell of it — cumin, marigold garlands, diesel, incense — is Udaipur at its most unperformed. It requires no money and no plan. Just the willingness to be present in a place that is not trying to serve you.</div>
+    </div>
+  </div>
+
+  <div class="gem">
+    <div class="gem-icon">⬡</div>
+    <div>
+      <div class="gem-name">Chittorgarh — the city that made Udaipur necessary</div>
+      <div class="gem-body">110 kilometres northeast of Udaipur, the fort of Chittorgarh sits on a plateau 180 metres above the plains — the largest fort in India by area, and the place where the Mewar dynasty's history was written in fire and sacrifice. Three times it was besieged. Three times its women performed jauhar rather than fall to invaders. The ruins that remain cover 700 acres and contain 65 buildings of extraordinary historical significance. Udaipur cannot be fully understood without it.</div>
+    </div>
+  </div>
+
+  <div class="brahma-cta">
+    <div class="brahma-cta-lbl">India Recommends</div>
+    <div class="brahma-cta-h">Brahma knows where the city hides</div>
+    <div class="brahma-cta-sub">The places most visitors miss are the ones most worth finding. Ask Brahma to build your personal Udaipur trail.</div>
+    <button class="btn-brahma" onclick="scrollTo('brahma-full')">Ask Brahma →</button>
+  </div>
+</section>
+
+<!-- ══ LIFESTYLE ════════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="lifestyle">
+  <div class="section-tag"><span class="dot dot-life"></span><span style="color:#4A8A5A;">Lifestyle</span></div>
+  <h2 class="section-h">Craft, wellness, and slow time</h2>
+  <p class="section-intro">Udaipur sustains a craft economy that has been running for centuries and a wellness culture that predates the word. Both are available if you know what to look for.</p>
+
+  <div class="cards">
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#4A8A5A;">Craft</div>
+      <div class="ccard-name">Block Printing</div>
+      <div class="ccard-body">The hand block printing tradition of Rajasthan is one of the oldest continuous craft traditions in India. The wooden blocks are carved by hand, the dyes are mixed fresh each day, the fabric is printed by rhythmic repetition of the block across its surface. Udaipur has both working workshops and teaching workshops. The distinction matters: the teaching ones are often more interesting to watch because the teacher explains what is being done and why.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#4A8A5A;">Craft</div>
+      <div class="ccard-name">Marble Work</div>
+      <div class="ccard-body">Udaipur's white marble comes from the mines at Makrana — the same stone that built the Taj Mahal. The marble-carving tradition here produces everything from architectural elements to decorative objects to the inlay work that makes Indian marble distinctive. The workshops near the old city show the entire process from rough stone to finished piece. Several generations of the same family often work side by side at the same table.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#4A8A5A;">Craft</div>
+      <div class="ccard-name">Silver Jewellery</div>
+      <div class="ccard-body">Rajasthani silver is different from Mughal-influenced north Indian silver — heavier, more architecturally conceived, with tribal and folk motifs drawn from the pastoral communities of the Aravalli region. The best work in Udaipur is sold by weight in the wholesale bazaars and by piece in the old city boutiques. The difference in price is real. The difference in quality is not always commensurate.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#3A7A8A;">Wellness</div>
+      <div class="ccard-name">Ayurveda</div>
+      <div class="ccard-body">Rajasthan has its own Ayurvedic tradition — drier, more mineral-focused than the Kerala version most Westerners encounter first, and shaped by the desert environment's particular demands on the body. Several genuinely qualified practitioners work in Udaipur. The distinction between a qualified practitioner and a massage parlour offering "Ayurvedic treatments" is significant and not always visible from the outside. Brahma knows which is which.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#3A7A8A;">Wellness</div>
+      <div class="ccard-name">Yoga</div>
+      <div class="ccard-body">The yoga available in Udaipur ranges from the genuinely traditional — early morning practice at a teacher's home in the old city, taught in the way it has been taught here for generations — to the Instagram-optimised rooftop version designed for photographs. Both exist. Only one of them will make you feel different at the end. The former requires introduction; the latter accepts walk-ins.</div>
+    </div>
+    <div class="ccard">
+      <div class="ccard-tag" style="color:#8A7A30;">Shopping</div>
+      <div class="ccard-name">What to Actually Buy</div>
+      <div class="ccard-body">Block print textiles (buy from workshops, not boutiques). Miniature paintings (buy from artists, not galleries). Camel leather goods (Jodhpur is better but Udaipur has good options). Blue pottery (from Jaipur originally but sold well in Udaipur). Fresh spices from the Bada Bazaar — the best rupee-for-rupee purchase available in the city. Marble work only if you can carry it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BRAHMA FULL ══════════════════════════════════════════════════════ -->
+<div class="section-divider"></div>
+<section class="section" id="brahma-full" style="text-align:center;padding-top:64px;padding-bottom:80px;">
+  <div class="section-tag" style="justify-content:center;margin-bottom:20px;">
+    <span class="dot" style="background:var(--gold);"></span>
+    <span style="color:var(--gold-dim);">India Recommends</span>
+  </div>
+  <div style="font-size:clamp(36px,8vw,56px);font-weight:300;letter-spacing:-1.5px;color:var(--t1);margin-bottom:10px;">Brahma</div>
+  <div style="font-size:15px;color:var(--t2);font-style:italic;margin-bottom:14px;">Your pocket concierge for Udaipur</div>
+  <div style="width:36px;height:1px;background:var(--gold-dim);margin:0 auto 18px;"></div>
+  <div style="font-size:14px;color:var(--t3);line-height:1.85;max-width:360px;margin:0 auto 40px;">
+    Everything in this guide is editorial and free. When you are ready to experience it — to find the right restaurant, the right experience, the right evening for your exact context — Brahma is ready.
+  </div>
+  <button class="hero-brahma" onclick="openBrahma()">Find my perfect place →</button>
+  <div style="margin-top:24px;font-size:11px;color:var(--t4);">Five questions · Three picks · Editorially verified · No paid placements</div>
+</section>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-logo">India Recommends</div>
+  <div class="footer-brand">Udaipur</div>
+  <div class="footer-sub" style="font-style:italic;">The city that refused to be taken</div>
+  <div style="width:30px;height:1px;background:var(--gold-dim);margin:16px auto 20px;"></div>
+  <div class="footer-note">
+    Every place mentioned in this guide was visited anonymously, without invitation, and without payment from any establishment. India Recommends accepts no advertising, no sponsored content, and no payment for inclusion in its editorial database or this guide.<br><br>
+    This guide is updated periodically. The history of Udaipur, thankfully, changes slowly.
+  </div>
+</footer>
+
+<!-- ══ SCRIPT ══════════════════════════════════════════════════════════ -->
+<script>
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function openBrahma() {
+  // If Brahma.html is in the same folder, open it
+  if (window.location.href.indexOf('file://') > -1) {
+    // Local file — try to open Brahma.html in same directory
+    var base = window.location.href.replace(/\/[^\/]*$/, '/');
+    window.location.href = base + 'Brahma.html';
+  } else {
+    // Web — navigate to Brahma page
+    window.location.href = 'brahma.html';
+  }
+}
+
+// Highlight active nav pill on scroll
+var sections = ['history','lakes','food','drinks','experiences','neighbourhoods','hidden','lifestyle','brahma-full'];
+var pills = document.querySelectorAll('.nav-pill');
+
+window.addEventListener('scroll', function() {
+  var scrollY = window.scrollY + 120;
+  var current = '';
+  sections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  });
+  pills.forEach(function(p, i) {
+    p.classList.toggle('active', sections[i] === current);
+  });
+}, {passive: true});
+</script>
+</body>
+</html>
